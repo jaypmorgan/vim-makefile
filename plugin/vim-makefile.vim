@@ -7,9 +7,9 @@ endfunction
 function! ListTargets(lines)
     let targets = []
     for s in a:lines
-        let m = matchstr(l:s, "^[a-zA-Z0-9_]*")
-        if m != ""
-            let targets =add(targets, m)
+        let l:m = matchstr(s, "^[a-zA-Z0-9_\/.-]*:")[:-2]
+        if l:m != "" && l:m != ".PHONY" && index(targets, l:m) == -1
+            let targets = add(targets, m)
         endif
     endfor
     return targets
