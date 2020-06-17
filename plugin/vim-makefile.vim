@@ -1,7 +1,7 @@
 let s:previousTarget = ""
 
 function! FindMakefile()
-    return readfile("Makefile")
+    return readfile("./Makefile")
 endfunction
 
 function! ListTargets(lines)
