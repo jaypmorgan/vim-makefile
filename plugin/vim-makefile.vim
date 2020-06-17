@@ -18,7 +18,7 @@ endfunction
 function! PrintTargets(targets)
     let i = 1
     for t in a:targets
-        echo i ": " t
+        echo printf("%4d: %s", i, t)
         let i = i + 1
     endfor
 endfunction
