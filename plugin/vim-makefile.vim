@@ -49,7 +49,10 @@ function! Menu()
     call inputrestore()
 
     redraw
-    :execute "make " l:target
+
+    split | terminal
+    let l:cmd = "make " . l:target . "\n"
+    call jobsend(b:terminal_job_id, l:cmd)
 endfunction
 
 nnoremap <leader>M :call Menu()<CR>
