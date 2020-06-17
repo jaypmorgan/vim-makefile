@@ -1,13 +1,13 @@
-let s:previousTarget = "test"
+let s:previousTarget = ""
 
-function! s:FindMakefile()
+function! FindMakefile()
     return readfile("Makefile")
 endfunction
 
-function! s:ListTargets(lines)
+function! ListTargets(lines)
     let targets = []
-    for s in s:lines
-        let m = matchstr(s, "^[a-zA-Z0-9_]*")
+    for s in a:lines
+        let m = matchstr(l:s, "^[a-zA-Z0-9_]*")
         if m != ""
             let targets =add(targets, m)
         endif
@@ -15,9 +15,9 @@ function! s:ListTargets(lines)
     return targets
 endfunction
 
-function! s:PrintTargets(targets)
+function! PrintTargets(targets)
     let i = 1
-    for t in s:targets
+    for t in a:targets
         echo i ": " t
         let i = i + 1
     endfor
@@ -32,25 +32,24 @@ function! Menu()
         echo "\n"
     endif
 
-    let s:file = s:FindMakefile()
-    let s:targets = s:ListTargets(s:file)
-    call s:PrintTargets(s:targets)
+    let file = FindMakefile()
+    let l:targets = ListTargets(file)
+    call PrintTargets(l:targets)
 
     call inputsave()
     echo "\n"
-    let s:selectedTarget = input("[default: 0] > ")
+    let l:selectedTarget = input("[default: 0] > ")
 
-    if s:selectedTarget == 0
-        let s:target = s:previousTarget
+    if l:selectedTarget == 0
+        let l:target = s:previousTarget
     else
-        let s:target = s:targets[s:selectedTarget-1]
-        let s:previousTarget = s:target
+        let l:target = l:targets[l:selectedTarget-1]
+        let s:previousTarget = l:target
     endif
-
     call inputrestore()
-    redraw
 
-    :execute "make " s:target
+    redraw
+    :execute "make " l:target
 endfunction
 
 nnoremap <leader>M :call Menu()<CR>
